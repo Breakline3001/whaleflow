@@ -81,3 +81,56 @@ A：不能，原因见上。如果你要无人值守的全自动生成，需要�
 
 **Q：`wf` 命令本身不识别？**
 A：`bin\wf.cmd` 只是包装，实际执行 `node bin/wf.mjs`。没加 PATH 时就用完整路径，或者把 `bin` 加进 PATH。
+
+---
+
+## MCP server（给 agent 原生调用）
+
+```powershell
+node bin/wf-mcp.mjs      # stdio JSON-RPC 2.0
+```
+
+在支持 MCP 的客户端里注册成 command 即可，例如：
+
+```json
+{
+  "mcpServers": {
+    "whaleflow": {
+      "command": "node",
+      "args": ["D:\\XYP\\whaleflow-v4\\bin\\wf-mcp.mjs"],
+      "env": { "WF_PROJECT": "D:\\work\\my.whaleflow.json" }
+    }
+  }
+}
+```
+
+暴露 10 个工具：`wf_init`、`wf_info`、`wf_list_nodes`、`wf_add_node`、`wf_script`、`wf_add_shot`、`wf_list_shots`、`wf_compile`、`wf_check`、`wf_export`。
+
+请求严格串行处理——客户端连发多条也不会互相踩同一个项目文件。
+
+## `wf render`：真的要生成一次
+
+这条命令会联网、会花钱，所以设计成**一次只渲染一个镜头**，而且密钥必须当场给：
+
+```powershell
+wf render --shot 1 --key-file D:\key.txt        # 推荐：从文件读
+wf render --shot 1 --key-env MY_OPENAI_KEY      # 从指定环境变量读
+wf render --shot 1 --api-key sk-...             # 直接传，会进命令历史
+wf render --shot 1 --demo --save out.svg        # 不联网，验证链路
+```
+
+可加 `--base-url`（默认 `https://api.openai.com/v1`）、`--model`（默认 `gpt-image-1`）、`--mode image|video`、`--save 路径`。
+
+密钥只在内存里用一次，**不写进项目、不写进配置、不落盘**。产出的媒体写回项目对应镜头的任务节点，桌面打开即可见。
+
+和桌面程序的区别：桌面用 DPAPI 密文里的凭据，这里用你当场给的。两者互不读取。
+
+## 三条路的现状
+
+| 方式 | 状态 | 说明 |
+| --- | --- | --- |
+| CLI 编排 | 已可用 | 不碰密钥，产出可直接打开的项目 |
+| MCP server | 已可用 | 10 个工具，串行处理 |
+| `wf render` | 已可用 | 显式传密钥，单镜头渲染 |
+| 转发给运行中的桌面程序 | 未做 | 需要 C# 宿主把端口与令牌写出，属原生改动 |
+
