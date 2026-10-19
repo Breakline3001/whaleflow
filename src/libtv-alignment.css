@@ -1,0 +1,463 @@
+/* LibTV alignment layer: values measured from the live /canvas DOM and 2x screenshots.
+   Loaded after styles.css so these overrides win at equal specificity.
+   Evidence: research/libtv-canvas-spec.md §9 (bottom dock), §6 (TV Director orb). */
+
+/* Bottom dock: x490..789 / y606.5..650 at a 1280x665 viewport.
+   Seven 32x32 buttons on a 40px pitch, so padding 6 + gap 8 reproduces it exactly.
+   The bounding box centres 31.5px right of the viewport centre, not on it. */
+.creation-dock {
+  bottom: 15px;
+  transform: translateX(calc(-50% + 31.5px));
+}
+.dock-main {
+  padding: 6px;
+  gap: 8px;
+  height: 44px;
+  border-radius: 14px;
+  background: #262626;
+  border: 1px solid #333333;
+}
+.dock-divider {
+  height: 24px;
+  width: 1px;
+  background: #363636;
+}
+
+/* TV Director sits as its own 48px circle 6px to the right of the dock. */
+.director-orb {
+  left: calc(100% + 6px);
+  bottom: 1.5px;
+  width: 48px;
+  height: 48px;
+  padding: 8px;
+  background: #262626;
+  border: 0.5px solid #363636;
+}
+.director-orb > span {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 34% 30%, #24eae4 0%, #2da9f7 52%, #7acdf2 100%);
+  box-shadow: none;
+}
+
+/* Menus: add menu 220 wide / r16, context menu 196 wide / r16 / hairline border.
+   Disabled rows are one whole-row opacity .3, not a separate grey palette. */
+.add-palette {
+  border-radius: 16px;
+  background: #262626;
+  border: 1px solid #363636;
+}
+.context-menu {
+  background: #262626;
+  border: 0.5px solid #363636;
+}
+.context-menu button {
+  font-size: 13px;
+  line-height: 20.15px;
+}
+.context-menu button:disabled {
+  opacity: 0.3;
+}
+.cyan-badge {
+  background: #2b494f;
+  color: #5ddcff;
+}
+.beta-badge {
+  background: #343434;
+  color: #a8a8a8;
+}
+
+/* Top-left is one 224x32 capsule, not three separate floating chips. */
+.top-left-cluster {
+  height: 32px;
+  gap: 0;
+  padding: 0 2px;
+  width: 224px;
+  min-width: 224px;
+  overflow: hidden;
+  background: #222222;
+  border: 0.5px solid #363636;
+  border-radius: 10px;
+}
+.top-left-cluster > .floating {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+/* Inside a fixed 224px capsule the name and canvas label share the remaining width. */
+.workspace-pill { height: 30px; min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.workspace-name { min-width: 0; flex: 1 1 auto; max-width: none; margin-left: 6px; }
+.canvas-switch { min-width: 0; flex: 0 1 auto; max-width: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.view-toggle { flex: 0 0 auto; }
+.pill-divider { height: 16px; background: #363636; margin: 0 4px; }
+/* Segmented control: #363636 fills only the 24x24 content box. */
+.view-toggle { height: 30px; padding: 3px; gap: 2px; }
+.view-toggle .icon-button { width: 24px; height: 24px; border-radius: 6px; }
+.view-toggle .icon-button.active { background: #363636; }
+
+/* Five starter cards: 200x56, r16, #242424 at .9, 8px pitch gap. */
+.starter-buttons > button {
+  height: 56px;
+  padding: 7px 17px 7px 7px;
+  gap: 16px;
+  background: #242424;
+  opacity: 0.9;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+.starter-buttons > button:hover {
+  background: #2b2b2b;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.starter-buttons > button > span {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+.starter-buttons strong {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+/* Script node idle state, measured from the live script-v2 card:
+   38px glyph, "尝试：" at 14/20 #919191, three 8px-radius mode rows. */
+.wf-script-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 24px;
+  color: #525252;
+}
+.wf-script-empty > svg { margin-bottom: 16px; }
+.wf-script-try {
+  align-self: flex-start;
+  width: 100%;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #919191;
+}
+.wf-script-modes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+}
+.wf-script-modes button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: #f7f7f7;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+}
+.wf-script-modes button:hover { background: #343434; }
+.wf-script-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  padding: 0 16px;
+  color: #919191;
+  font-size: 13px;
+}
+.wf-script-summary > span { flex: 1; }
+.wf-script-summary > button {
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7f7f7;
+  font-size: 13px;
+}
+
+/* Storyboard generation runs inside the script card: 6 rows x 3 skeleton bars,
+   then a status line with a cancel action. Measured from the live generating node. */
+.wf-script-running {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  background: #212121;
+  border-radius: 12px;
+}
+.wf-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.wf-skeleton > div { display: flex; gap: 3px; }
+.wf-skeleton i {
+  display: block;
+  flex: 1;
+  height: 9px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  animation: wf-skeleton-pulse 1.4s ease-in-out infinite;
+}
+.wf-skeleton > div:nth-child(2n) i { animation-delay: 0.2s; }
+@keyframes wf-skeleton-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.wf-script-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #919191;
+}
+.wf-script-status > span { flex: 1; }
+.wf-script-status > button {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7f7f7;
+  font-size: 12px;
+}
+.wf-script-status > button:hover { background: rgba(255, 255, 255, 0.16); }
+
+/* Storyboard contact sheet: one card per shot, ordered by the document, horizontal strip. */
+.storyboard-view {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 16px 24px;
+  background: #141414;
+  overflow: hidden;
+}
+.storyboard-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+.storyboard-heading h2 { margin: 0; font-size: 16px; font-weight: 500; }
+.storyboard-heading > span { flex: 1; font-size: 13px; color: #919191; }
+.storyboard-heading > button {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #363636;
+  border-radius: 8px;
+  background: #262626;
+  color: #f7f7f7;
+  font-size: 13px;
+}
+.storyboard-heading > .storyboard-close { width: 32px; padding: 0; display: grid; place-items: center; }
+.storyboard-empty { margin: 40px auto; color: #919191; font-size: 13px; }
+.storyboard-strip {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+}
+.story-card {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #363636;
+  border-radius: 12px;
+  background: #262626;
+}
+.story-card > header { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.story-card > header > span { color: #919191; font-variant-numeric: tabular-nums; }
+.story-card > header > strong { flex: 1; font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.story-card > header > small { color: #d1a06a; font-size: 11px; }
+.story-frame {
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #171717;
+  display: grid;
+  place-items: center;
+}
+.story-frame img { width: 100%; height: 100%; object-fit: cover; }
+.story-frame-empty { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #525252; font-size: 12px; }
+.story-desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #919191;
+  max-height: 48px;
+  overflow: hidden;
+}
+.story-card > footer { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #919191; }
+.story-card > footer > span { flex: 1; }
+.story-card > footer > button {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7f7f7;
+  font-size: 12px;
+}
+.story-card > footer > button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.16); }
+.story-card > footer > button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Shortcut overlay: 1151x436, four columns on a 288px pitch, 40px rows. */
+.shortcuts-panel {
+  position: absolute;
+  left: 64px;
+  top: 155px;
+  width: 1151px;
+  max-width: calc(100vw - 128px);
+  height: 436px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 24px 0;
+  background: rgba(47, 47, 47, 0.72);
+  border: 0.5px solid #363636;
+  border-radius: 16px;
+  backdrop-filter: blur(24px);
+  overflow: auto;
+}
+.shortcuts-panel .shortcut-column {
+  padding: 0 24px 0 23px;
+  border-left: 1px solid #363636;
+}
+.shortcuts-panel .shortcut-column:first-of-type { border-left: 0; }
+.shortcuts-panel h3 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #09caf5;
+}
+.shortcuts-panel .shortcut-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  font-size: 13px;
+  color: #919191;
+}
+.shortcuts-panel .shortcut-row > span { flex: 1; }
+.shortcuts-panel .shortcut-row > div { display: flex; align-items: center; gap: 4px; }
+.shortcuts-panel .shortcut-row kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #c0c0c0;
+  font: 12px/1 inherit;
+}
+.shortcuts-panel .shortcut-row small { color: #686868; font-size: 11px; }
+
+/* Image node is two-stage: card, a 16px strip of canvas, then a detached parameter panel
+   inset 25px on both sides. */
+.workflow-node.kind-image .wf-node-tools {
+  top: calc(100% + 16px);
+  width: calc(100% - 50px);
+  min-width: 0;
+  max-width: none;
+  padding: 12px;
+  border: 1px solid #363636;
+  border-radius: 12px;
+  background: #262626;
+  box-shadow: none;
+}
+.workflow-node .wf-composer-heading > button {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #313131;
+  font-size: 12px;
+  color: #f7f7f7;
+}
+.workflow-node .wf-composer-heading > button:hover { background: #3a3a3a; }
+.workflow-node .wf-toolbar-prompt .wf-editor {
+  font-size: 14px;
+  line-height: 25.2px;
+}
+.workflow-node .wf-editor::placeholder { color: #525252; }
+
+/* Canvas list menu: 213 wide at (165,46), 32px rows. */
+.canvases-menu {
+  width: 213px;
+  left: 165px;
+  top: 46px;
+  padding: 8px 12px;
+  border-radius: 16px;
+}
+.canvas-row { min-height: 32px; }
+
+/* Bottom-left cluster starts at x=14 with a constant 4px rhythm. */
+.bottom-left-controls { left: 14px; }
+.zoom-value { min-width: 42px; width: 42px; padding: 0 4px; text-align: center; }
+.zoom-slider-row { display: none; }
+
+/* Secondary cyan capsule used by 逐帧拉片 (SD 2.5). */
+.sd-badge {
+  background: #2b494f;
+  color: #5ddcff;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 16px;
+  padding: 0 5px;
+  white-space: nowrap;
+}
+
+/* Image parameter panel interior, measured from the live 660x191 panel:
+   chip row 26px tall, prompt box 96px at r12, control row 32px at r8. */
+.workflow-node.kind-image .wf-node-tools {
+  padding: 8px;
+}
+.workflow-node .wf-composer-heading {
+  gap: 0;
+  padding: 4px 0 0 4px;
+}
+.workflow-node .wf-composer-heading > button {
+  height: 26px;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f7f7f7;
+  font-size: 12px;
+  line-height: 18px;
+  gap: 6px;
+}
+.workflow-node .wf-composer-heading > button svg { width: 12px; height: 12px; }
+.workflow-node .wf-composer-heading > span { display: none; }
+.workflow-node .wf-toolbar-prompt {
+  height: 96px;
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 12px;
+  border-bottom: 0;
+}
+.workflow-node .wf-toolbar-prompt .wf-editor {
+  height: 100%;
+  padding: 0;
+  font-size: 14px;
+  line-height: 22px;
+  border-radius: 0;
+}
+.workflow-node .wf-toolbar-row > button {
+  height: 32px;
+  min-height: 32px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.workflow-node .wf-toolbar-row > button svg { width: 14px; height: 14px; }

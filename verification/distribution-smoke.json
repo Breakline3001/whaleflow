@@ -1,0 +1,107 @@
+{
+  "ok": true,
+  "details": {
+    "checks": [
+      "app-ready-and-empty-canvas",
+      "project-menu-loads-five-node-demo",
+      "desktop-getAppInfo",
+      "visible-run-action-clicked",
+      "five-success-events-and-nodes",
+      "output-image-decoded",
+      "run-button-reset",
+      "autosave-restore-roundtrip",
+      "invalid-project-rejected-without-overwrite"
+    ],
+    "events": [
+      {
+        "nodeId": "idea",
+        "status": "running",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "idea",
+        "status": "success",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "memo",
+        "status": "running",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "memo",
+        "status": "success",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "writer",
+        "status": "running",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "writer",
+        "status": "success",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "visual",
+        "status": "running",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "visual",
+        "status": "success",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "result",
+        "status": "running",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      },
+      {
+        "nodeId": "result",
+        "status": "success",
+        "runId": "404fe5a3-027f-4f4d-bbb2-74778b3ba370"
+      }
+    ],
+    "initialNodeCount": 0,
+    "modelSettingsChecks": [
+      "exact-fourteen-native-bridge-members",
+      "native-catalog-save-and-encrypted-readback",
+      "structured-cas-conflict-preserves-current-revision",
+      "native-password-modal-cancel-unchanged",
+      "native-password-modal-save-status-only-and-reopen",
+      "native-credential-clear",
+      "native-endpoint-change-invalidates-credential-binding",
+      "actual-settings-component-reloads-native-snapshot"
+    ],
+    "nativeModalScope": "Actual WinForms modal and DPAPI store; controlled native test input/cancel driver, not physical OS keyboard input",
+    "demoNodeIds": [
+      "idea",
+      "writer",
+      "visual",
+      "result",
+      "memo"
+    ],
+    "appInfo": {
+      "platform": "win32",
+      "version": "0.3.0"
+    },
+    "runAction": "aria-label",
+    "outputImage": {
+      "width": 1024,
+      "height": 640
+    },
+    "autosaveObservation": {
+      "nodeCount": 5,
+      "outputs": 5
+    },
+    "invalidProjectError": "节点 ID 必须是长度不超过 200 的字符串"
+  },
+  "timestamp": "2026-10-19T08:23:17.3218459Z",
+  "dataPath": "D:\\XYP\\whaleflow-v3\\release\\.extracted-smoke-REv12G\\Data\\smoke-95f7608bfc5047f88c7d081f5018ddfa",
+  "screenshot": "D:\\XYP\\whaleflow-v3\\artifacts\\native-smoke.png",
+  "extractedArchive": "WhaleFlow-0.3.0-Windows-x64.zip",
+  "extractedArchiveSha256": "045448ead33fef8a3b367ab394f3a3c69c21ccdb0dd2b2b379895c659c0767d9",
+  "exitCode": 0
+}

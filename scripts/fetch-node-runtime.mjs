@@ -1,0 +1,15 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const version='v24.19.0',name=`node-${version}-win-x64.zip`,base=`https://nodejs.org/dist/${version}/`;
+const sumsResponse=await fetch(base+'SHASUMS256.txt',{signal:AbortSignal.timeout(45000)});
+if(!sumsResponse.ok)throw new Error('Node checksums HTTP '+sumsResponse.status);
+const lines=(await sumsResponse.text()).split('\n');const expected=lines.map(l=>l.trim().split(/\s+/)).find(parts=>parts[1]===name)?.[0];
+if(!expected)throw new Error('Official Node checksum missing');
+const response=await fetch(base+name,{signal:AbortSignal.timeout(120000)});if(!response.ok)throw new Error('Node runtime HTTP '+response.status);
+const bytes=Buffer.from(await response.arrayBuffer()),sha256=createHash('sha256').update(bytes).digest('hex');if(sha256!==expected)throw new Error('Node runtime checksum mismatch');
+const root=fileURLToPath(new URL('../',import.meta.url));await mkdir(path.join(root,'native-shell/vendor'),{recursive:true});
+await writeFile(path.join(root,'native-shell/vendor/node-runtime.zip'),bytes);
+await writeFile(path.join(root,'native-shell/node-runtime-version.json'),JSON.stringify({version,url:base+name,sha256},null,2));
+console.log(JSON.stringify({version,bytes:bytes.length,sha256}));

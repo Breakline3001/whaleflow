@@ -1,0 +1,12 @@
+import {spawn} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const executable=path.join(root,'node_modules','electron','dist','electron.exe');
+const env={...process.env};
+delete env.ELECTRON_RUN_AS_NODE;
+const child=spawn(executable,[root,...process.argv.slice(2)],{cwd:root,env,stdio:'inherit',windowsHide:false});
+child.on('error',error=>{console.error(error);process.exitCode=1;});
+child.on('exit',(code,signal)=>{console.log(`[desktop-runner] exit=${code} signal=${signal||'none'}`);process.exitCode=code??1;});
+process.on('SIGINT',()=>child.kill());
+process.on('SIGTERM',()=>child.kill());

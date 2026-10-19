@@ -1,0 +1,9 @@
+node_modules/
+dist/
+release/
+artifacts/
+*.log
+.env
+.env.*
+native-shell/vendor/
+Data/

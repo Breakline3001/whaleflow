@@ -1,0 +1,67 @@
+{
+  "name": "whaleflow-desktop",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Independent infinite canvas for local AI workflows",
+  "author": "WhaleFlow",
+  "license": "MIT",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "build": "node scripts/build-frontend.mjs",
+    "build:watch": "node scripts/build-frontend.mjs --watch",
+    "start": "node scripts/run-native.mjs",
+    "start:electron": "node scripts/run-desktop.mjs",
+    "test": "node --test --test-isolation=none tests/*.test.mjs",
+    "prepare:runtime": "node scripts/prepare-native.mjs",
+    "build:native": "node scripts/build-native.mjs",
+    "pack": "node scripts/package-native.mjs",
+    "pack:source": "node scripts/package-source.mjs",
+    "verify": "node scripts/verify-artifacts.mjs",
+    "verify:source": "node scripts/verify-artifacts.mjs --source",
+    "smoke:package": "node scripts/smoke-distribution.mjs",
+    "pack:electron": "electron-builder --win zip --x64 --config.directories.output=release/electron-legacy",
+    "dist": "node scripts/collect-licenses.mjs && npm run build && npm test && npm run prepare:runtime && npm run build:native && npm run smoke && npm run pack && npm run verify && npm run smoke:package && npm run pack:source && node scripts/verify-artifacts.mjs --source",
+    "smoke": "node scripts/run-native.mjs --smoke-test",
+    "smoke:source": "node --test --test-isolation=none tests/*.test.mjs",
+    "archive:verify": "node scripts/verify-artifacts.mjs"
+  },
+  "dependencies": {
+    "@xyflow/react": "12.8.5",
+    "lucide-react": "0.468.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "4.5.2",
+    "electron": "44.9.0",
+    "electron-builder": "26.0.12",
+    "vite": "6.3.5"
+  },
+  "build": {
+    "appId": "studio.whaleflow.desktop",
+    "electronDist": "node_modules/electron/dist",
+    "productName": "WhaleFlow",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "lib/**",
+      "package.json",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md",
+      "third-party-licenses/**",
+      "README.md",
+      "VALIDATION.md",
+      "examples/**"
+    ],
+    "asar": true,
+    "win": {
+      "target": "zip",
+      "signAndEditExecutable": false,
+      "artifactName": "WhaleFlow-${version}-Windows-x64.${ext}"
+    }
+  }
+}

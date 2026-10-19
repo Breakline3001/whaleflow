@@ -1,0 +1,74 @@
+{
+  "version": "0.3.0",
+  "createdAt": "2026-10-19T08:20:08.276Z",
+  "architecture": "PE x64 (0x8664)",
+  "shell": "WinForms / system WebView2 (sandbox enabled)",
+  "nativeBuild": {
+    "version": "0.3.0",
+    "algorithm": "sha256",
+    "createdAt": "2026-10-19T08:11:35.596Z",
+    "files": [
+      {
+        "path": "native-shell/WhaleFlow.cs",
+        "bytes": 61073,
+        "sha256": "02c8139654de4b20bf8cd128c1b86ad8c3f05e7ad2bd9ea3230cfeed71c6cc6a"
+      },
+      {
+        "path": "native-shell/ModelSettings.cs",
+        "bytes": 20111,
+        "sha256": "2ee4ebc984d55dfc9590e663c00bf08ae9ab72ae3b48e4e6503f24e16adafb4c"
+      },
+      {
+        "path": "native-shell/WhaleFlow.manifest",
+        "bytes": 847,
+        "sha256": "bdcf32c148862fd8e6223bed4d0c1b94be2f43184c720ca603e703bc15a29644"
+      },
+      {
+        "path": "native-shell/server.mjs",
+        "bytes": 22727,
+        "sha256": "98f968d43fbd7f6e0ecf91f4d2c05102a9f372099eb1af082ac049cd8cf2eb4f"
+      },
+      {
+        "path": "lib/model-settings-schema.mjs",
+        "bytes": 8033,
+        "sha256": "87f135d0d663e15a71d73e2af64b455c85320b42bc255a01c75e587c00f9518e"
+      },
+      {
+        "path": "lib/model-settings.mjs",
+        "bytes": 13092,
+        "sha256": "7fadbf4e46e27adb20907bb142c0e8fd58ca682f8257b2e5408e544cf3fb6f5e"
+      }
+    ],
+    "executableSha256": "c309bf48d78ea19b7ae71f5db39f35ef62ed23e6b44b90395d70f8e850a3dad9"
+  },
+  "packagedSourceMatch": [
+    "native-shell/server.mjs",
+    "lib/generation-options.mjs",
+    "lib/model-settings-schema.mjs",
+    "lib/model-settings.mjs",
+    "lib/project.mjs",
+    "lib/secret-safety.mjs",
+    "lib/workflow.mjs",
+    "dist/assets/canvas-D0RXFGvq.js",
+    "dist/assets/icons-CO3rl4lC.js",
+    "dist/assets/index-BwuRcTWb.css",
+    "dist/assets/index-CayhfEXB.js",
+    "dist/assets/react-4s4P2BgR.js",
+    "dist/index.html"
+  ],
+  "archiveContractFiles": 61,
+  "archiveFilesVerified": 61,
+  "archiveBytes": 35427205,
+  "zipSha256": "045448ead33fef8a3b367ab394f3a3c69c21ccdb0dd2b2b379895c659c0767d9",
+  "exeSha256": "c309bf48d78ea19b7ae71f5db39f35ef62ed23e6b44b90395d70f8e850a3dad9",
+  "nativeSmokeTimestamp": "2026-10-19T08:13:07.2926631Z",
+  "browserAcceptance": {
+    "passed": true,
+    "completedAt": "2026-10-19T08:11:45.304Z",
+    "frontendFilesVerified": 6,
+    "scope": "isolated fresh Chrome + exact14 explicit fixture + real WorkflowEngine.runConfigured + real localhost SSE + real project files; NOT Native WebMessage",
+    "nativeOsClipboard": "NOT TESTED"
+  },
+  "desktopAcceptance": "PASS: real WebMessage/C# host/Node; eight model settings checks including native modal cancel/save/clear, encrypted reopen, CAS and endpoint binding; nine canvas checks including five durable outputs. Native modal input uses a controlled WinForms test driver, not physical keyboard input",
+  "realModelServices": "NOT TESTED: protocol tests use controlled substitutes"
+}

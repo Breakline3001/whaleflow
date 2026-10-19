@@ -1,0 +1,37 @@
+import {mkdir,copyFile,cp,writeFile,readFile,access,rm} from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawn} from 'node:child_process';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {buildOutput,version,nativeSources,libModules} from './archive-helpers.mjs';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const output=buildOutput(root);
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+const sourceManifest=[];
+for(const file of [...nativeSources,'native-shell/server.mjs',...await libModules(root)]){const bytes=await readFile(path.join(root,file));sourceManifest.push({path:file,bytes:bytes.length,sha256:sha(bytes)});}
+if(!output.startsWith(path.join(root,'release')+path.sep))throw new Error('Build output must stay inside this project release directory');
+const sdk=path.join(root,'native-shell/vendor/webview2');
+const nodeRoot=path.join(root,'native-shell/vendor/node-runtime/node-v24.19.0-win-x64');
+await access(path.join(root,'native-shell/WhaleFlow.cs'));await access(path.join(root,'native-shell/server.mjs'));await access(path.join(root,'dist/index.html'));
+await mkdir(output,{recursive:true});await mkdir(path.join(output,'host'),{recursive:true});await mkdir(path.join(output,'native-shell'),{recursive:true});
+for(const filename of ['Microsoft.Web.WebView2.Core.dll','Microsoft.Web.WebView2.WinForms.dll'])await copyFile(path.join(sdk,'lib/net462',filename),path.join(output,filename));
+await copyFile(path.join(sdk,'runtimes/win-x64/native/WebView2Loader.dll'),path.join(output,'WebView2Loader.dll'));
+await mkdir(path.join(output,'runtimes/win-x64/native'),{recursive:true});await copyFile(path.join(sdk,'runtimes/win-x64/native/WebView2Loader.dll'),path.join(output,'runtimes/win-x64/native/WebView2Loader.dll'));
+await copyFile(path.join(nodeRoot,'node.exe'),path.join(output,'host/node.exe'));
+await copyFile(path.join(nodeRoot,'LICENSE'),path.join(output,'host/NODE-LICENSE.txt'));
+await copyFile(path.join(sdk,'LICENSE.txt'),path.join(output,'WEBVIEW2-SDK-LICENSE.txt'));
+await copyFile(path.join(root,'native-shell/server.mjs'),path.join(output,'native-shell/server.mjs'));
+for(const directory of ['lib','dist']){await rm(path.join(output,directory),{recursive:true,force:true});await cp(path.join(root,directory),path.join(output,directory),{recursive:true});}
+for(const filename of ['README.md','VALIDATION.md','LICENSE','THIRD_PARTY_NOTICES.md'])await copyFile(path.join(root,filename),path.join(output,filename));
+await cp(path.join(root,'third-party-licenses'),path.join(output,'third-party-licenses'),{recursive:true});await cp(path.join(root,'examples'),path.join(output,'examples'),{recursive:true});await cp(path.join(root,'research'),path.join(output,'research'),{recursive:true});
+await copyFile(path.join(root,'native-shell/node-runtime-version.json'),path.join(output,'host/runtime-provenance.json'));
+await copyFile(path.join(root,'native-shell/webview2-version.json'),path.join(output,'webview2-sdk-provenance.json'));
+await writeFile(path.join(output,'WhaleFlow.exe.config'),'<?xml version="1.0"?><configuration><startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8"/></startup></configuration>');
+const compiler=path.join(process.env.WINDIR||'C:\\Windows','Microsoft.NET/Framework64/v4.0.30319/csc.exe');
+const args=['/nologo','/target:winexe','/platform:x64','/optimize+','/out:'+path.join(output,'WhaleFlow.exe'),'/win32manifest:'+path.join(root,'native-shell/WhaleFlow.manifest'),...['System.dll','System.Core.dll','System.Drawing.dll','System.Windows.Forms.dll','System.Net.Http.dll','System.Web.Extensions.dll','System.Security.dll'].map(v=>'/reference:'+v),'/reference:'+path.join(output,'Microsoft.Web.WebView2.Core.dll'),'/reference:'+path.join(output,'Microsoft.Web.WebView2.WinForms.dll'),path.join(root,'native-shell/WhaleFlow.cs'),path.join(root,'native-shell/ModelSettings.cs')];
+const code=await new Promise((resolve,reject)=>{const child=spawn(compiler,args,{cwd:root,stdio:'inherit'});child.on('error',reject);child.on('exit',resolve);});
+if(code!==0)throw new Error('Native compiler exit '+code);
+for(const file of sourceManifest)assert.equal(sha(await readFile(path.join(root,file.path))),file.sha256,'Native input changed during build: '+file.path);
+await writeFile(path.join(output,'host/build-source-manifest.json'),JSON.stringify({version,algorithm:'sha256',createdAt:new Date().toISOString(),files:sourceManifest,executableSha256:sha(await readFile(path.join(output,'WhaleFlow.exe')))},null,2));
+console.log('[NATIVE_BUILD] '+path.join(output,'WhaleFlow.exe'));

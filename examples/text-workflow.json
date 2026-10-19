@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "纯文本 AI 工作流",
+  "nodes": [
+    {"id":"prompt","type":"workflow","position":{"x":40,"y":100},"data":{"kind":"prompt","title":"故事种子","content":"一只鲸鱼游过夜空，把星光带回海洋。请给这个故事写一份简短分镜。"}},
+    {"id":"writer","type":"workflow","position":{"x":440,"y":100},"data":{"kind":"text","title":"AI 分镜","content":"你是一位分镜导演。根据上游创意，输出三个镜头，每个镜头说明画面与运镜。"}},
+    {"id":"result","type":"workflow","position":{"x":840,"y":100},"data":{"kind":"output","title":"文本结果","content":""}}
+  ],
+  "edges":[{"id":"e1","source":"prompt","target":"writer"},{"id":"e2","source":"writer","target":"result"}],
+  "viewport":{"x":30,"y":100,"zoom":0.8}
+}

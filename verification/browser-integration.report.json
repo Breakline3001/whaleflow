@@ -1,0 +1,229 @@
+{
+  "version": "0.3.0",
+  "ok": true,
+  "passed": true,
+  "errors": [],
+  "createdAt": "2026-10-19T08:11:32.921Z",
+  "evidence": [
+    {
+      "name": "0.3 public fixture bridge exactly matches 14 public members; no test-only public methods"
+    },
+    {
+      "name": "clean profile startup has empty canvas, disabled run and real empty autosave"
+    },
+    {
+      "name": "real model settings screenshot: 800px dialog within viewport",
+      "layout": {
+        "panel": {
+          "x": 356,
+          "y": 90,
+          "width": 800,
+          "height": 800
+        },
+        "navWidth": 188,
+        "rootInert": true,
+        "focusInside": true,
+        "background": "rgb(242, 242, 242)"
+      },
+      "screenshot": "D:\\XYP\\whaleflow-v3\\artifacts\\browser-integration.png"
+    },
+    {
+      "name": "settings 188px navigation and neutral white primary button measured from rendered CSS",
+      "navWidth": 188,
+      "primary": "rgb(242, 242, 242)"
+    },
+    {
+      "name": "portal marks canvas root inert and trusted ShiftTab remains in settings focus trap"
+    },
+    {
+      "name": "trusted mouse and keyboard add first OpenAI-compatible provider as auth none"
+    },
+    {
+      "name": "manual model directory keeps typed model ID/name and explicitly declared text plus image roles"
+    },
+    {
+      "name": "second independent provider added; only one editor expanded, prior provider draft retained"
+    },
+    {
+      "name": "editing two providers does not implicitly save application settings"
+    },
+    {
+      "name": "default selectors filter roles from declarations rather than infer capabilities from names"
+    },
+    {
+      "name": "explicit save commits both providers and chosen role defaults to fixture CAS file",
+      "revision": 1
+    },
+    {
+      "name": "close and reopen reads saved settings rather than reset defaults"
+    },
+    {
+      "name": "real browser refresh re-reads fixture persisted catalog and defaults"
+    },
+    {
+      "name": "dirty close cancellation preserves unsaved provider draft"
+    },
+    {
+      "name": "dirty close explicit discard restores saved document on next open"
+    },
+    {
+      "name": "invalid URL fails renderer validation visibly, retaining draft and leaving CAS file untouched"
+    },
+    {
+      "name": "trusted CtrlS saves settings only, not project/canvas"
+    },
+    {
+      "name": "CtrlEnter cannot run canvas; Escape opens dirty guard then cancels only the nested confirmation"
+    },
+    {
+      "name": "deleting a default-linked model requires confirmation and cancellation preserves model"
+    },
+    {
+      "name": "confirmed model deletion clears related defaults in draft only, not stored settings"
+    },
+    {
+      "name": "confirmed provider deletion also clears its model/default associations without touching remote service"
+    },
+    {
+      "name": "fixture-only metadata candidates do not infer role or auto-modify saved directory"
+    },
+    {
+      "name": "explicit candidate role plus apply only changes draft; explicit save persists candidate (fixture metadata only)"
+    },
+    {
+      "name": "fixture metadata cancellation ignores deliberately late result without altering catalog"
+    },
+    {
+      "name": "credential button obtains configured status from fake fixture operation, NOT Native dialog or provider authentication"
+    },
+    {
+      "name": "fixture-only credential cancellation leaves saved revision unchanged; no secret entered"
+    },
+    {
+      "name": "fixture-only credential clear requires confirmation and returns unconfigured status"
+    },
+    {
+      "name": "fixture-only concurrent CAS mutation rejects stale save, disables overwrite and preserves complete draft"
+    },
+    {
+      "name": "explicit reread resolves fixture CAS conflict using current persisted revision"
+    },
+    {
+      "name": "original Demo loads five nodes without replacing saved application catalog/defaults"
+    },
+    {
+      "name": "actual WorkflowEngine.runConfigured produces five Demo successes over real localhost SSE and decoded image",
+      "successes": 5,
+      "transport": "EventSource SSE, not Native WebMessage"
+    },
+    {
+      "name": "all five Demo results durably reach real atomic autosave file, without fixed sleep"
+    },
+    {
+      "name": "trusted CtrlS writes portable Demo project including all outputs and embedded SVG"
+    },
+    {
+      "name": "real refresh restores five-node Demo output from disk while application settings stay independent"
+    },
+    {
+      "name": "settings CtrlEnter/CtrlS/Escape cannot execute or save even with runnable populated Demo canvas"
+    },
+    {
+      "name": "actual node model dropdown stores selected provider/modelRef and upgrades project to v2, clearing Demo override",
+      "selection": {
+        "providerId": "fixture-beta",
+        "modelId": "v3-text-beta"
+      }
+    },
+    {
+      "name": "real project export and backend readProject retain strict v2 providerId/modelId reference"
+    },
+    {
+      "name": "trusted CtrlC uses isolated in-memory clipboard and carries v2 modelRef, never OS clipboard"
+    },
+    {
+      "name": "trusted CtrlV creates distinct node ID while retaining v2 catalog reference"
+    },
+    {
+      "name": "catalog URLs/names/unused candidates and credentials excluded from exported project and durable autosave"
+    },
+    {
+      "name": "fixture desktop path keeps catalog and model settings out of localStorage",
+      "storage": "{}"
+    },
+    {
+      "name": "all settings/modelRef/clipboard edits leave run count at one dedicated offline Demo; no supplier calls"
+    }
+  ],
+  "distManifest": [
+    {
+      "path": "assets/canvas-D0RXFGvq.js",
+      "bytes": 192468,
+      "sha256": "90ddd44ca3b2047762c25cb0ba867e5290d4d6c5658bcd0931be7d1a64876288"
+    },
+    {
+      "path": "assets/icons-CO3rl4lC.js",
+      "bytes": 23937,
+      "sha256": "7f23b866ce839865f5adb8dacbe98a20a4b0607105ec34d016a91d5bd285aeac"
+    },
+    {
+      "path": "assets/index-BwuRcTWb.css",
+      "bytes": 58487,
+      "sha256": "26bbc5c98cb518ee810f2e047619d071011efbde2dd0c4cc2dbf9529e2ddfd20"
+    },
+    {
+      "path": "assets/index-CayhfEXB.js",
+      "bytes": 126835,
+      "sha256": "17139b859989ede7ad006d82945f5675c2493c87bf29de6ff8362db9ec60b05a"
+    },
+    {
+      "path": "assets/react-4s4P2BgR.js",
+      "bytes": 173767,
+      "sha256": "a02b2f898a5e424627a5892c2da112d44afa30a5c31804d0c16831690d3d0d5f"
+    },
+    {
+      "path": "index.html",
+      "bytes": 896,
+      "sha256": "a51f376632daa3436037cc11ccdc57470fc242b39a7db3efdfef94859964430c"
+    }
+  ],
+  "scope": "isolated fresh Chrome + exact14 explicit fixture + real WorkflowEngine.runConfigured + real localhost SSE + real project files; NOT Native WebMessage",
+  "fixtureScope": {
+    "settings": "controlled in-memory CAS, atomically persisted in fixture-specific temporary directory; NOT Native DPAPI",
+    "credential": "status-only fake set/clear/cancel; NOT Native password dialog, no secret, no provider authentication",
+    "metadata": "synthetic candidates/deferred cancellation; NOT live supplier metadata",
+    "cas": "test-only Node fixture revision bump; no additional public desktop methods"
+  },
+  "clipboard": {
+    "implementation": "isolated per-page in-memory fixture",
+    "osClipboard": "never read or modified; NOT TESTED"
+  },
+  "input": "trusted CDP Input mouse/wheel/key/insertText; Runtime.evaluate only DOM/fixture observations and frame synchronization",
+  "distUnchangedDuringRun": true,
+  "completedAt": "2026-10-19T08:11:45.304Z",
+  "counts": {
+    "evidence": 42,
+    "runs": 1,
+    "successfulNodes": [
+      "idea",
+      "memo",
+      "writer",
+      "visual",
+      "result"
+    ],
+    "saves": 2,
+    "opens": 0,
+    "autosaves": 6,
+    "restores": 3,
+    "settingsReads": 10,
+    "settingsSaves": 5,
+    "metadataCancels": 1
+  },
+  "expectedErrors": [
+    {
+      "method": "saveModelSettings",
+      "code": "REVISION_CONFLICT",
+      "currentRevision": 8
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const root=fileURLToPath(new URL('../',import.meta.url));
+let pin=null;
+try{pin=JSON.parse(await readFile(path.join(root,'native-shell/webview2-version.json'),'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
+const version=pin?.version||'1.0.4258.31';
+if(!/^\d+\.\d+\.\d+\.\d+$/.test(version))throw new Error('Invalid WebView2 version pin');
+const url=`https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/${version}/microsoft.web.webview2.${version}.nupkg`;
+const download=await fetch(url,{signal:AbortSignal.timeout(90000)});
+if(!download.ok)throw new Error('NuGet package HTTP '+download.status);
+const bytes=Buffer.from(await download.arrayBuffer());
+const digest=createHash('sha512').update(bytes).digest('base64');
+const leafResponse=await fetch(`https://api.nuget.org/v3/registration5-gz-semver2/microsoft.web.webview2/${version}.json`,{signal:AbortSignal.timeout(45000)});
+if(!leafResponse.ok)throw new Error('NuGet registration HTTP '+leafResponse.status);
+const leaf=await leafResponse.json();
+const catalogResponse=await fetch(leaf.catalogEntry,{signal:AbortSignal.timeout(45000)});
+if(!catalogResponse.ok)throw new Error('NuGet catalog HTTP '+catalogResponse.status);
+const catalog=await catalogResponse.json();
+if(catalog.packageHashAlgorithm!=='SHA512'||catalog.packageHash!==digest||(pin?.sha512&&pin.sha512!==digest))throw new Error('NuGet catalog or pinned package checksum mismatch');
+const directory=path.join(root,'native-shell/vendor');await mkdir(directory,{recursive:true});
+await writeFile(path.join(directory,'webview2.zip'),bytes);
+await writeFile(path.join(root,'native-shell/webview2-version.json'),JSON.stringify({version,url,sha512:digest},null,2));
+console.log(JSON.stringify({version,bytes:bytes.length,sha512:digest}));
