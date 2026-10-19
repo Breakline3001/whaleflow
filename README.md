@@ -65,6 +65,21 @@
 
 没配模型也能玩：空白画布可以载入离线 DEMO，所有交互都能试，只是生成结果是本地占位图，不是 AI 产物。
 
+## 给 AI 用：`wf` 命令行
+
+除了点界面，还有一条给人和代理用的命令线，输出全是 JSON：
+
+```powershell
+node bin/wf.mjs init --name "鲸鱼短片"
+node bin/wf.mjs script create --title "鲸鱼短片" --script "第一幕：鲸鱼穿过星海。"
+node bin/wf.mjs shots add --title "开场" --prompt "夜空下的鲸鱼剪影" --duration 8
+node bin/wf.mjs compile --shots 1,2 --mode image
+```
+
+能建项目、写剧本、拆镜头、把镜头编译成待执行的任务节点；**不做真实生成**，因为模型密钥是 DPAPI 密文，只有桌面程序能解密——CLI 干脆碰不到密钥。产出的项目文件在桌面里打开就能跑。
+
+完整的命令表、给代理的使用建议和限制说明见 [WF-CLI.md](WF-CLI.md)。
+
 ## 它不做什么
 
 - 不含原站的账号、会员、积分、云资产、协作

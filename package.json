@@ -63,5 +63,8 @@
       "signAndEditExecutable": false,
       "artifactName": "WhaleFlow-${version}-Windows-x64.${ext}"
     }
+  },
+  "bin": {
+    "wf": "bin/wf.mjs"
   }
 }
