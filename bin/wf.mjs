@@ -30,8 +30,8 @@ const file = path.resolve(String(opt('file', DEFAULT_FILE)));
 
 async function load() {
   if (!existsSync(file)) fail(`找不到项目文件：${file}（先跑 wf init）`);
-  const text = await readFile(file, 'utf8');
-  const data = JSON.parse(text);
+  const raw = await readFile(file, 'utf8');
+  const data = JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
   validateProject(data);
   return data;
 }
@@ -199,6 +199,33 @@ const commands = {
     }
     await save(project);
     json({ok: true, created, note: '任务节点已写入项目，在桌面程序里打开该项目即可执行生成'});
+  },
+
+  // wf import --from 片段.json [--out 项目.json] [--name 名称]
+  // 接受 {nodes,edges} 片段、纯数组，或完整项目；补齐 name/viewport/workspace 后落成可打开的项目。
+  async import() {
+    const from = opt('from');
+    if (!from || from === true) fail('用法：wf import --from 片段.json [--out 项目.json] [--name 名称]');
+    const source = path.resolve(String(from));
+    if (!existsSync(source)) fail(`找不到片段文件：${source}`);
+    const raw = await readFile(source, 'utf8');
+    const parsed = JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
+    const fragment = Array.isArray(parsed) ? {nodes: parsed} : parsed;
+    if (!Array.isArray(fragment.nodes) || !fragment.nodes.length) fail('片段里没有 nodes 数组，或为空');
+    const project = blankProject();
+    project.name = String(opt('name', fragment.name || '导入的项目'));
+    project.version = [1, 2, 3].includes(fragment.version) ? fragment.version : 2;
+    project.nodes = fragment.nodes;
+    project.edges = Array.isArray(fragment.edges) ? fragment.edges : [];
+    if (fragment.viewport) project.viewport = fragment.viewport;
+    project.workspace.canvases[0].nodes = project.nodes;
+    project.workspace.canvases[0].edges = project.edges;
+    project.workspace.canvases[0].name = project.name;
+    validateProject(project);
+    const target = path.resolve(String(opt('out', opt('file', DEFAULT_FILE))));
+    if (existsSync(target) && !args.includes('--force')) fail(`目标已存在：${target}（加 --force 覆盖）`);
+    await writeProject(target, project);
+    json({ok: true, from: source, out: target, version: project.version, nodes: project.nodes.length, kinds: [...new Set(project.nodes.map(node => node.data.kind))]});
   },
 
   // wf check

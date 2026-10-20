@@ -7,7 +7,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {readOwnZip} from './read-own-zip.mjs';
 import {runtimeArchiveName,runtimeInputs,buildOutput,version} from './archive-helpers.mjs';
-const root=fileURLToPath(new URL('../',import.meta.url)),desktop=process.env.WHALEFLOW_DESKTOP||path.join(process.env.USERPROFILE,'Desktop'),folderName=process.env.WHALEFLOW_DELIVERY_NAME||'WhaleFlow-0.4.0',folder=path.join(desktop,folderName),shortcutName=process.env.WHALEFLOW_DELIVERY_SHORTCUT||'WhaleFlow创作导演台.lnk',shortcut=path.join(desktop,shortcutName);
+const root=fileURLToPath(new URL('../',import.meta.url)),desktop=process.env.WHALEFLOW_DESKTOP||path.join(process.env.USERPROFILE,'Desktop'),folderName=process.env.WHALEFLOW_DELIVERY_NAME||'WhaleFlow-0.5.0',folder=path.join(desktop,folderName),shortcutName=process.env.WHALEFLOW_DELIVERY_SHORTCUT||'WhaleFlow创作导演台.lnk',shortcut=path.join(desktop,shortcutName);
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 async function absent(file){try{await lstat(file);throw Error('拒绝覆盖已有路径：'+file);}catch(e){if(e.code!=='ENOENT')throw e;}}
 await absent(folder);await absent(shortcut);

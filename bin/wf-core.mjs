@@ -21,7 +21,8 @@ export const blankProject = name => ({
 
 export async function loadProject(file) {
   if (!existsSync(file)) throw Error(`找不到项目文件：${file}`);
-  const project = JSON.parse(await readFile(file, 'utf8'));
+  const raw = await readFile(file, 'utf8');
+  const project = JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
   validateProject(project);
   return project;
 }

@@ -206,9 +206,21 @@ namespace WhaleFlowNative
             webView = new WebView2();
             webView.Dock = DockStyle.Fill;
             webView.DefaultBackgroundColor = BackColor;
+            webView.TabIndex = 0;
             Controls.Add(webView);
             Shown += OnShown;
+            // 输入法（IME）只在 WebView2 真正拥有焦点时才会把候选窗口绑到正确位置。
+            // 缺了这几处 Focus，中文打出来只会剩字母。
+            Activated += delegate { FocusInput(); };
+            webView.GotFocus += delegate { };
             FormClosing += OnClosing;
+        }
+
+        private void FocusInput()
+        {
+            if (webView == null || webView.IsDisposed) return;
+            try { webView.Focus(); } catch (ObjectDisposedException) { }
+            catch (InvalidOperationException) { }
         }
 
         private async void OnShown(object sender, EventArgs e)
@@ -344,6 +356,9 @@ namespace WhaleFlowNative
             settings.AreDefaultContextMenusEnabled = false;
             settings.AreBrowserAcceleratorKeysEnabled = false;
             settings.IsStatusBarEnabled = false;
+            // 让输入法能正常组合中文：焦点在网页控件上，且不禁用与输入相关的默认行为。
+            FocusInput();
+            webView.CoreWebView2.DOMContentLoaded += delegate { FocusInput(); };
             core.NavigationStarting += delegate(object sender, CoreWebView2NavigationStartingEventArgs e) { if (!IsRoot(e.Uri)) e.Cancel = true; };
             core.FrameNavigationStarting += delegate(object sender, CoreWebView2NavigationStartingEventArgs e) { if (!IsLocal(e.Uri)) e.Cancel = true; };
             core.NewWindowRequested += delegate(object sender, CoreWebView2NewWindowRequestedEventArgs e) { e.Handled = true; };
@@ -938,7 +953,7 @@ namespace WhaleFlowNative
         'demo must contain idea/writer/visual/result/memo workflow leaves');
       details.checks.push('project-menu-loads-five-node-demo');
       const info = await desktop.getAppInfo();
-      assert(info && info.version === '0.4.0' && info.platform, 'getAppInfo must report version 0.4.0 and platform');
+      assert(info && info.version === '0.5.0' && info.platform, 'getAppInfo must report version 0.5.0 and platform');
       details.appInfo = info;
       details.checks.push('desktop-getAppInfo');
       const successes = new Set();

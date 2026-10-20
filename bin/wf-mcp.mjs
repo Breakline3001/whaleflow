@@ -116,7 +116,7 @@ async function dispatch(request) {
     ok(id, {
       protocolVersion: '2024-11-05',
       capabilities: {tools: {}},
-      serverInfo: {name: 'whaleflow', version: '0.4.0'},
+      serverInfo: {name: 'whaleflow', version: '0.5.0'},
       instructions: 'WhaleFlow 项目编排工具。它不持有模型凭据，不执行真实生成：把剧本和镜头组织好、编译成任务节点，最后由桌面程序执行。',
     });
     return;

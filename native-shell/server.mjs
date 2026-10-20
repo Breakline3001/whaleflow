@@ -215,7 +215,7 @@ export async function createNativeServer(options = {}) {
   }
   async function dispatch(method, args) {
     switch (method) {
-      case 'app.info': return { version: '0.4.0', platform: 'win32' };
+      case 'app.info': return { version: '0.5.0', platform: 'win32' };
       case 'project.open': {
         const path = absolutePath(args[0], '项目路径');
         return queueWrite('project', () => readProject(path));

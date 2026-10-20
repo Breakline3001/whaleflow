@@ -45,7 +45,7 @@ test('real HTTP authentication, Host, browser isolation, RPC validation and read
   const browser = await f.rpc('app.info', [], { headers: { Origin: 'https://evil.example' } });
   assert.equal(browser.status, 403); assert.equal(browser.headers['access-control-allow-origin'], undefined);
   assert.equal((await f.rpc('app.info', [], { headers: { 'Sec-Fetch-Site': 'same-origin' } })).status, 403);
-  assert.deepEqual((await f.rpc('app.info')).json(), { result: { version: '0.4.0', platform: 'win32' } });
+  assert.deepEqual((await f.rpc('app.info')).json(), { result: { version: '0.5.0', platform: 'win32' } });
   for (const body of [{ method: 'constructor', args: [] }, { method: 'app.info', args: [1] }, { method: 'app.info' }, { method: 'app.info', args: [], extra: 1 }, [], 'not JSON']) {
     assert.equal((await f.request('/rpc', { method: 'POST', body })).status, 400);
   }
